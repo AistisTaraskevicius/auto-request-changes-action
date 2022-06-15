@@ -26,42 +26,9 @@ jobs:
     steps:
       - uses: ntsd/auto-request-changes-action@v2
         with:
+          changes-required: true
           github-token: "${{ secrets.GITHUB_TOKEN }}"
           comment-body: "custom comment body"
-```
-
-Combine with an `if` can only auto-request-changes with only failure workflow
-
-```yaml
-name: Auto request changes
-
-on: pull_request_target
-
-jobs:
-  auto-request-changes:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: ntsd/auto-request-changes-action@v2
-        if: ${{ github.event.pull_request && failure() }}
-```
-
-Using with [auto-approve-action](https://github.com/hmarr/auto-approve-action) to approve when the job success.
-
-```yaml
-name: Auto request changes and approve
-
-on: pull_request_target
-
-jobs:
-  auto-review:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: ntsd/auto-request-changes-action@v2
-        if: ${{ github.event.pull_request && failure() }}
-      - uses: hmarr/auto-approve-action@v2
-        if: ${{ github.event.pull_request && success() }}
-        with:
-          github-token: "${{ secrets.GITHUB_TOKEN }}"
 ```
 
 If you want to use this action from a workflow file that doesn't run on the `pull_request` or `pull_request_target` events, use the `pull-request-number` input:

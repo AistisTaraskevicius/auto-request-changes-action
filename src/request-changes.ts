@@ -4,10 +4,11 @@ import { RequestError } from "@octokit/request-error";
 import { Context } from "@actions/github/lib/context";
 
 export async function requestChanges(
-  token: string,
-  context: Context,
-  commentBody: string,
-  prNumber?: number
+    changesRequired: boolean,
+    token: string,
+    context: Context,
+    commentBody: string,
+    prNumber?: number
 ) {
   if (!prNumber) {
     prNumber = context.payload.pull_request?.number;
@@ -29,8 +30,8 @@ export async function requestChanges(
       owner: context.repo.owner,
       repo: context.repo.repo,
       pull_number: prNumber,
-      event: "REQUEST_CHANGES",
-      body: commentBody,
+      event: changesRequired? "REQUEST_CHANGES" : "APPROVE",
+      body: changesRequired? commentBody : `Fixed: "${commentBody}"`
     });
     core.info(`Requested changes pull request #${prNumber}`);
   } catch (error) {
