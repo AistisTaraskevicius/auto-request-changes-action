@@ -4,6 +4,9 @@ branding:
   icon: "check-circle"
   color: "green"
 inputs:
+  changes-required:
+    description: "Flag to indicate if change is required or if PR should be approved otherwise."
+    required: true
   github-token:
     description: "The Github token. By default, it will using GITHUB_TOKEN to use the repo token."
     required: true
