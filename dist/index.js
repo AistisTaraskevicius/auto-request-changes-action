@@ -5867,14 +5867,15 @@ const github = __importStar(__nccwpck_require__(438));
 const request_changes_1 = __nccwpck_require__(45);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
+        const changesRequired = Boolean(JSON.parse(core.getInput("changes-required", { required: true })));
         const token = core.getInput("github-token", { required: true });
         const commentBody = core.getInput("comment-body", { required: true });
         const prNumber = parseInt(core.getInput("pull-request-number"), 10);
         if (!Number.isNaN(prNumber)) {
-            yield request_changes_1.requestChanges(token, github.context, commentBody, prNumber);
+            yield request_changes_1.requestChanges(changesRequired, token, github.context, commentBody, prNumber);
         }
         else {
-            yield request_changes_1.requestChanges(token, github.context, commentBody);
+            yield request_changes_1.requestChanges(changesRequired, token, github.context, commentBody);
         }
     });
 }
@@ -5921,7 +5922,7 @@ exports.requestChanges = void 0;
 const core = __importStar(__nccwpck_require__(186));
 const github = __importStar(__nccwpck_require__(438));
 const request_error_1 = __nccwpck_require__(537);
-function requestChanges(token, context, commentBody, prNumber) {
+function requestChanges(changesRequired, token, context, commentBody, prNumber) {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
         if (!prNumber) {
@@ -5939,8 +5940,8 @@ function requestChanges(token, context, commentBody, prNumber) {
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 pull_number: prNumber,
-                event: "REQUEST_CHANGES",
-                body: commentBody,
+                event: changesRequired ? "REQUEST_CHANGES" : "APPROVE",
+                body: changesRequired ? commentBody : `Fixed: "${commentBody}"`,
             });
             core.info(`Requested changes pull request #${prNumber}`);
         }
