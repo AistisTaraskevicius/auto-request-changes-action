@@ -10,9 +10,13 @@ inputs:
   github-token:
     description: "The Github token. By default, it will using GITHUB_TOKEN to use the repo token."
     required: true
-  comment-body:
+  changes-comment:
     description: "The comment body to create a request changes review. The default is `Some actions are not successful, please fix it.`."
     default: "Some actions are not successful, please fix it."
+    required: false
+  approval-comment:
+    description: "The comment body to approve the pr. The default is `All good`."
+    default: "All good."
     required: false
   pull-request-number:
     description: "(optional) The ID of a pull request to auto-request-changes. By default, this action tries to use the pull_request event payload."

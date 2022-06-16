@@ -16,7 +16,13 @@ test("when a review is successfully created", async () => {
     .post("/repos/ntsd/test/pulls/101/reviews")
     .reply(200, { id: 1 });
 
-  await requestChanges(true, "gh-tok", ghContext(), "comment-body");
+  await requestChanges(
+    true,
+    "gh-tok",
+    ghContext(),
+    "comment-body",
+    "approval-comment"
+  );
 
   expect(core.info).toHaveBeenCalledWith(
     expect.stringContaining("Requested changes pull request #101")
@@ -28,7 +34,14 @@ test("when a review is successfully created using pull-request-number", async ()
     .post("/repos/ntsd/test/pulls/101/reviews")
     .reply(200, { id: 1 });
 
-  await requestChanges(true, "gh-tok", new Context(), "comment-body", 101);
+  await requestChanges(
+    true,
+    "gh-tok",
+    new Context(),
+    "comment-body",
+    "approval-comment",
+    101
+  );
 
   expect(core.info).toHaveBeenCalledWith(
     expect.stringContaining("Requested changes pull request #101")
@@ -36,7 +49,13 @@ test("when a review is successfully created using pull-request-number", async ()
 });
 
 test("without a pull request", async () => {
-  await requestChanges(true, "gh-tok", new Context(), "comment-body");
+  await requestChanges(
+    true,
+    "gh-tok",
+    new Context(),
+    "comment-body",
+    "approval-comment"
+  );
 
   expect(core.setFailed).toHaveBeenCalledWith(
     expect.stringContaining("Make sure you're triggering this")
@@ -48,7 +67,13 @@ test("when the token is invalid", async () => {
     .post("/repos/ntsd/test/pulls/101/reviews")
     .reply(401, { message: "Bad credentials" });
 
-  await requestChanges(true, "gh-tok", ghContext(), "comment-body");
+  await requestChanges(
+    true,
+    "gh-tok",
+    ghContext(),
+    "comment-body",
+    "approval-comment"
+  );
 
   expect(core.setFailed).toHaveBeenCalledWith(
     expect.stringContaining("`github-token` input parameter")
@@ -60,7 +85,13 @@ test("when the token doesn't have write permissions", async () => {
     .post("/repos/ntsd/test/pulls/101/reviews")
     .reply(403, { message: "Resource not accessible by integration" });
 
-  await requestChanges(true, "gh-tok", ghContext(), "comment-body");
+  await requestChanges(
+    true,
+    "gh-tok",
+    ghContext(),
+    "comment-body",
+    "approval-comment"
+  );
 
   expect(core.setFailed).toHaveBeenCalledWith(
     expect.stringContaining("pull_request_target")
@@ -72,7 +103,13 @@ test("when a user tries to request change their own pull request", async () => {
     .post("/repos/ntsd/test/pulls/101/reviews")
     .reply(422, { message: "Unprocessable Entity" });
 
-  await requestChanges(true, "gh-tok", ghContext(), "comment-body");
+  await requestChanges(
+    true,
+    "gh-tok",
+    ghContext(),
+    "comment-body",
+    "approval-comment"
+  );
 
   expect(core.setFailed).toHaveBeenCalledWith(
     expect.stringContaining("same user account")
@@ -84,7 +121,13 @@ test("when the token doesn't have access to the repository", async () => {
     .post("/repos/ntsd/test/pulls/101/reviews")
     .reply(404, { message: "Not Found" });
 
-  await requestChanges(true, "gh-tok", ghContext(), "comment-body");
+  await requestChanges(
+    true,
+    "gh-tok",
+    ghContext(),
+    "comment-body",
+    "approval-comment"
+  );
 
   expect(core.setFailed).toHaveBeenCalledWith(
     expect.stringContaining("doesn't have access")

@@ -5869,13 +5869,16 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         const changesRequired = Boolean(JSON.parse(core.getInput("changes-required", { required: true })));
         const token = core.getInput("github-token", { required: true });
-        const commentBody = core.getInput("comment-body", { required: true });
+        const changesComment = core.getInput(" changes-comment", { required: true });
+        const approvalComment = core.getInput(" approval-comment", {
+            required: true,
+        });
         const prNumber = parseInt(core.getInput("pull-request-number"), 10);
         if (!Number.isNaN(prNumber)) {
-            yield request_changes_1.requestChanges(changesRequired, token, github.context, commentBody, prNumber);
+            yield request_changes_1.requestChanges(changesRequired, token, github.context, changesComment, approvalComment, prNumber);
         }
         else {
-            yield request_changes_1.requestChanges(changesRequired, token, github.context, commentBody);
+            yield request_changes_1.requestChanges(changesRequired, token, github.context, changesComment, approvalComment);
         }
     });
 }
@@ -5922,7 +5925,7 @@ exports.requestChanges = void 0;
 const core = __importStar(__nccwpck_require__(186));
 const github = __importStar(__nccwpck_require__(438));
 const request_error_1 = __nccwpck_require__(537);
-function requestChanges(changesRequired, token, context, commentBody, prNumber) {
+function requestChanges(changesRequired, token, context, changesComment, approvalComment, prNumber) {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
         if (!prNumber) {
@@ -5941,7 +5944,7 @@ function requestChanges(changesRequired, token, context, commentBody, prNumber) 
                 repo: context.repo.repo,
                 pull_number: prNumber,
                 event: changesRequired ? "REQUEST_CHANGES" : "APPROVE",
-                body: changesRequired ? commentBody : `Fixed: "${commentBody}"`,
+                body: changesRequired ? changesComment : approvalComment,
             });
             core.info(`Requested changes pull request #${prNumber}`);
         }

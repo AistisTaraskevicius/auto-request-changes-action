@@ -7,7 +7,8 @@ export async function requestChanges(
   changesRequired: boolean,
   token: string,
   context: Context,
-  commentBody: string,
+  changesComment: string,
+  approvalComment: string,
   prNumber?: number
 ) {
   if (!prNumber) {
@@ -31,7 +32,7 @@ export async function requestChanges(
       repo: context.repo.repo,
       pull_number: prNumber,
       event: changesRequired ? "REQUEST_CHANGES" : "APPROVE",
-      body: changesRequired ? commentBody : `Fixed: "${commentBody}"`,
+      body: changesRequired ? changesComment : approvalComment,
     });
     core.info(`Requested changes pull request #${prNumber}`);
   } catch (error) {
