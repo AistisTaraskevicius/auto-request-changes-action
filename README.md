@@ -2,7 +2,7 @@
 
 This action is a fork from [hmarr/auto-approve-action](https://github.com/hmarr/auto-approve-action)
 
-**Name:** `ntsd/auto-request-changes-action`
+**Name:** `AistisTaraskevicius/auto-request-changes-action`
 
 Automatically request changes GitHub pull requests. The `GITHUB_TOKEN` secret will default provided as the `github-token` input for the action to work. otherwise you can add a token to `github-token` input.
 
