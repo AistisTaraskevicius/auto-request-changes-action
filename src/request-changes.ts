@@ -30,7 +30,7 @@ export async function requestChanges(
       owner: context.repo.owner,
       repo: context.repo.repo,
       pull_number: prNumber,
-      event: changesRequired ? "REQUEST_CHANGES" : "APPROVE",
+      event: changesRequired ? "REQUEST_CHANGES" : undefined,
       body: changesRequired ? commentBody : `Fixed: "${commentBody}"`,
     });
     core.info(`Requested changes pull request #${prNumber}`);
