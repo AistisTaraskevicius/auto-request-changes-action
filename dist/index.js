@@ -5940,7 +5940,7 @@ function requestChanges(changesRequired, token, context, commentBody, prNumber) 
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 pull_number: prNumber,
-                event: changesRequired ? "REQUEST_CHANGES" : undefined,
+                event: changesRequired ? "REQUEST_CHANGES" : "APPROVE",
                 body: changesRequired ? commentBody : `Fixed: "${commentBody}"`,
             });
             core.info(`Requested changes pull request #${prNumber}`);
