@@ -5869,8 +5869,8 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         const changesRequired = Boolean(JSON.parse(core.getInput("changes-required", { required: true })));
         const token = core.getInput("github-token", { required: true });
-        const changesComment = core.getInput(" changes-comment", { required: true });
-        const approvalComment = core.getInput(" approval-comment", {
+        const changesComment = core.getInput("changes-comment", { required: true });
+        const approvalComment = core.getInput("approval-comment", {
             required: true,
         });
         const prNumber = parseInt(core.getInput("pull-request-number"), 10);

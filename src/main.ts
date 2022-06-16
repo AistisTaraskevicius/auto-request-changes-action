@@ -7,8 +7,8 @@ async function run() {
     JSON.parse(core.getInput("changes-required", { required: true }))
   );
   const token = core.getInput("github-token", { required: true });
-  const changesComment = core.getInput(" changes-comment", { required: true });
-  const approvalComment = core.getInput(" approval-comment", {
+  const changesComment = core.getInput("changes-comment", { required: true });
+  const approvalComment = core.getInput("approval-comment", {
     required: true,
   });
   const prNumber: number = parseInt(core.getInput("pull-request-number"), 10);

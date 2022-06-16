@@ -28,7 +28,8 @@ jobs:
         with:
           changes-required: true
           github-token: "${{ secrets.GITHUB_TOKEN }}"
-          comment-body: "custom comment body"
+          changes-comment: "custom comment body"
+          approval-comment: "comment to leave when pr is approved"
 ```
 
 If you want to use this action from a workflow file that doesn't run on the `pull_request` or `pull_request_target` events, use the `pull-request-number` input:
